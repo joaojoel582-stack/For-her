@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Elizabeth ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: radial-gradient(circle, #0f0f1a, #000);
+  font-family: Arial;
+}
+
+/* Nome */
+h1 {
+  position: absolute;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  color: #ff4d6d;
+  font-size: 50px;
+  z-index: 2;
+}
+
+/* Mensagem */
+h2 {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+/* Foto */
+#photo {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 3px solid #ff4d6d;
+  z-index: 2;
+}
+
+/* Botão música */
+button {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 25px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+</style>
+</head>
+
+<body>
+
+<img src="love.jpg" id="photo">
+
+<h1>Elizabeth ❤️</h1>
+<h2>I love you</h2>
+
+<button onclick="playMusic()">Play Music 🎶</button>
+
+<audio id="music" loop>
+  <source src="https://files.catbox.moe/7p6k0x.mp3" type="audio/mp3">
+</audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Criar corações (forma melhor)
+const hearts = [];
+
+for (let i = 0; i < 80; i++) {
+  const geometry = new THREE.TorusGeometry(0.3, 0.12, 16, 100);
+  const material = new THREE.MeshBasicMaterial({ color: 0xff4d6d });
+  const heart = new THREE.Mesh(geometry, material);
+
+  heart.position.x = (Math.random() - 0.5) * 12;
+  heart.position.y = (Math.random() - 0.5) * 12;
+  heart.position.z = (Math.random() - 0.5) * 12;
+
+  scene.add(heart);
+  hearts.push(heart);
+}
+
+camera.position.z = 6;
+
+// Animação
+function animate() {
+  requestAnimationFrame(animate);
+
+  hearts.forEach(h => {
+    h.rotation.x += 0.01;
+    h.rotation.y += 0.01;
+
+    h.position.y += 0.02;
+
+    if (h.position.y > 6) {
+      h.position.y = -6;
+    }
+  });
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+// Música
+function playMusic() {
+  const audio = document.getElementById("music");
+  audio.play();
+}
+</script>
+
+</body>
+</html>
